@@ -128,7 +128,6 @@ Vagrant.configure("2") do |config|
 
       zabbix.vm.provision "shell", inline: <<-SHELL
         echo '----Cleaning up---- '
-        dnf -y install zabbix-agent
         dnf -y clean all
         rm -rf /var/cache/yum /var/lib/yum/yumdb/* /usr/lib/udev/hwdb.d/*
         rm -rf /var/cache/dnf /etc/udev/hwdb.bin /root/.pki
