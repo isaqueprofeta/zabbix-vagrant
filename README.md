@@ -6,11 +6,11 @@ Vagrant is a tool that uses Oracle's VirtualBox to dynamically build configurabl
 
 ## What is this project?
 
-This is the Vagrant configuration used in my box for [Zabbix](https://www.zabbix.com/) at VagrantCloud in isaqueprofeta/zabbix for VirtualBox provider. They start out with Zabbix Server 5.2, Apache and PostgreSQL 12 with TimescaleDB. The Operating System is CentOS 8.
+This is the Vagrant configuration used in my boxes for [Zabbix](https://www.zabbix.com/) at [VagrantCloud](https://app.vagrantup.com/isaqueprofeta). They start out with Zabbix Server 5.2, Apache and PostgreSQL 12 with TimescaleDB. The options of Operating System is CentOS 8 or Debian 10.
 
 ## How do I install Vagrant?
 
-The host OS used in testing these examples was Ubuntu-based 18.04, but any OS should work as long as VirtualBox can be installed. The VirtualBox version used is 6.1 and Vagrant version is v2.2.14.
+The VirtualBox version used is 6.1 and Vagrant version is v2.2.14.
 
 - Download VirtualBox 6.1: https://www.virtualbox.org/wiki/Downloads
 - Download Vagrant 2.2.14: https://www.vagrantup.com/downloads
@@ -21,10 +21,12 @@ Two options:
 
 1. Using the VagrantCloud box: From an empty directory, Create a Vagrantfile and put in it the contents:
 
+config.vm.box could be "isaqueprofeta/zabbix-centos8" or "isaqueprofeta/zabbix-debian10"
+
 ```
 Vagrant.configure("2") do |config|
-  config.vm.box = "isaqueprofeta/zabbix"
-  config.vm.box_version = "5.2.12"
+  config.vm.box = "isaqueprofeta/zabbix-debian10"
+  config.vm.box_version = "5.2"
   config.vm.network "forwarded_port", guest: 80 , host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 10050 , host: 10050, host_ip: "127.0.0.1"
@@ -35,11 +37,11 @@ end
 Save, exit, and then type:
 
 ```
-vagrant init isaqueprofeta/zabbix
+vagrant init isaqueprofeta/zabbix-debian10 # Or isaqueprofeta/zabbix-centos8
 vagrant up
 ```
 
-2. Build ground up from Centos8: Clone this repo and inside it, run vagrant up.
+2. Build ground up from Centos8/Debian10: Clone this repo and inside the wanted OS folder, run vagrant up.
 
 ## How do I work?
 
@@ -61,7 +63,7 @@ vagrant halt
 
 ```
 vagrant destroy
-vagrant box prune isaqueprofeta/zabbix
+vagrant box prune isaqueprofeta/zabbix-debian10 # Or isaqueprofeta/zabbix-centos8
 ```
 
 2. Create a snapshot for tests:
