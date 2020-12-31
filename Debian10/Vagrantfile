@@ -134,15 +134,10 @@ WEBCONFIG
 			systemctl stop zabbix-server
 
 			echo '----Configuring TimescaleDB---- '
-			sudo -u postgres timescaledb-tune -yes
+			sudo -u postgres timescaledb-tune --quiet --yes
 			sudo systemctl restart postgresql@#{POSTGRES_VERSION}-main
-			echo "CREATE EXTENSION IF NOT EXISTS timescaledb VERSION '1.7.4' CASCADE;" | sudo -u postgres psql zabbix 2>/dev/null
-
-			echo '----Getting zabbix timescale config and appling it---- '
-			cd /tmp
-			wget --quiet https://cdn.zabbix.com/zabbix/sources/stable/#{ZABBIX_VERSION_MAJOR}/zabbix-#{ZABBIX_VERSION_MINOR}.tar.gz
-			tar -zxvf zabbix-#{ZABBIX_VERSION_MINOR}.tar.gz zabbix-#{ZABBIX_VERSION_MINOR}/database/postgresql/timescaledb.sql
-			cat ./zabbix-#{ZABBIX_VERSION_MINOR}/database/postgresql/timescaledb.sql | sudo -u zabbix psql zabbix
+			echo "CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;" | sudo -u postgres psql zabbix 2>/dev/null
+			cat /usr/share/doc/zabbix-server-pgsql*/timescaledb.sql | sudo -u zabbix psql zabbix
 			
 			echo '----Starting Zabbix-Server---- '
 			systemctl start zabbix-server
