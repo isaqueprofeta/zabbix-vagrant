@@ -1,6 +1,6 @@
-ZABBIX_VERSION_MAJOR = "5.2"
-ZABBIX_VERSION_MINOR = "5.2.3"
-POSTGRES_VERSION = "12"
+ZABBIX_VERSION_MAJOR = "5.4"
+ZABBIX_VERSION_MINOR = "5.4.2"
+POSTGRES_VERSION = "13"
 PHP_TIMEZONE = "America/Sao_Paulo"
 
 Vagrant.configure("2") do |config|
@@ -33,6 +33,7 @@ Vagrant.configure("2") do |config|
 			echo '----Configuring and starting PostgreSQL---- '
 			sudo sed -i "s/ident/md5/g" /etc/postgresql/#{POSTGRES_VERSION}/main/pg_hba.conf
 			sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /etc/postgresql/#{POSTGRES_VERSION}/main/postgresql.conf
+			sudo sed -i "s/max_connections = 20/max_connections = 50/" /etc/postgresql/#{POSTGRES_VERSION}/main/postgresql.conf
 			sudo systemctl restart postgresql@#{POSTGRES_VERSION}-main
 
 			echo '----Creating database and user---- '
@@ -46,10 +47,10 @@ Vagrant.configure("2") do |config|
 			wget --quiet https://repo.zabbix.com/zabbix/#{ZABBIX_VERSION_MAJOR}/debian/pool/main/z/zabbix-release/zabbix-release_#{ZABBIX_VERSION_MAJOR}-1+debian10_all.deb
 			sudo dpkg -i zabbix-release_#{ZABBIX_VERSION_MAJOR}-1+debian10_all.deb
 			sudo apt-get -q update
-			sudo apt-get -q -y install zabbix-server-pgsql
+			sudo apt-get -q -y install zabbix-server-pgsql zabbix-sql-scripts
 
 			echo '----Creating database schema---- '
-			zcat /usr/share/doc/zabbix-server-pgsql*/create.sql.gz | sudo -u zabbix psql zabbix
+			zcat /usr/share/doc/zabbix-sql-scripts/postgresql/create.sql.gz | sudo -u zabbix psql zabbix
 			SHELL
 
 		zabbix.vm.provision "shell", inline: <<-SHELL
@@ -137,7 +138,7 @@ WEBCONFIG
 			sudo -u postgres timescaledb-tune --quiet --yes
 			sudo systemctl restart postgresql@#{POSTGRES_VERSION}-main
 			echo "CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;" | sudo -u postgres psql zabbix 2>/dev/null
-			cat /usr/share/doc/zabbix-server-pgsql*/timescaledb.sql | sudo -u zabbix psql zabbix
+			cat /usr/share/doc/zabbix-sql-scripts/postgresql/timescaledb.sql | sudo -u zabbix psql zabbix
 			
 			echo '----Starting Zabbix-Server---- '
 			systemctl start zabbix-server
