@@ -24,11 +24,24 @@ Two options:
 
 1. Using the VagrantCloud box: From an empty directory, Create a Vagrantfile and put in it the contents:
 
-config.vm.box could be "isaqueprofeta/zabbix-centos8" or "isaqueprofeta/zabbix-debian10"
+config.vm.box could be "isaqueprofeta/zabbix-debian10":
 
 ```ruby
 Vagrant.configure("2") do |config|
   config.vm.box = "isaqueprofeta/zabbix-debian10"
+  config.vm.box_version = "5.4"
+  config.vm.network "forwarded_port", guest: 80 , host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 10050 , host: 10050, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 10051 , host: 10051, host_ip: "127.0.0.1"
+end
+```
+
+or "isaqueprofeta/zabbix-centos8":
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.box = "isaqueprofeta/zabbix-centos8"
   config.vm.box_version = "5.2"
   config.vm.network "forwarded_port", guest: 80 , host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
