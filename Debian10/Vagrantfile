@@ -33,7 +33,6 @@ Vagrant.configure("2") do |config|
 			echo '----Configuring and starting PostgreSQL---- '
 			sudo sed -i "s/ident/md5/g" /etc/postgresql/#{POSTGRES_VERSION}/main/pg_hba.conf
 			sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /etc/postgresql/#{POSTGRES_VERSION}/main/postgresql.conf
-			sudo sed -i "s/max_connections = 20/max_connections = 50/" /etc/postgresql/#{POSTGRES_VERSION}/main/postgresql.conf
 			sudo systemctl restart postgresql@#{POSTGRES_VERSION}-main
 
 			echo '----Creating database and user---- '
@@ -136,6 +135,7 @@ WEBCONFIG
 
 			echo '----Configuring TimescaleDB---- '
 			sudo -u postgres timescaledb-tune --quiet --yes
+			sudo sed -i "s/max_connections = 20/max_connections = 50/" /etc/postgresql/#{POSTGRES_VERSION}/main/postgresql.conf
 			sudo systemctl restart postgresql@#{POSTGRES_VERSION}-main
 			echo "CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;" | sudo -u postgres psql zabbix 2>/dev/null
 			cat /usr/share/doc/zabbix-sql-scripts/postgresql/timescaledb.sql | sudo -u zabbix psql zabbix
