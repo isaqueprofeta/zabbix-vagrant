@@ -6,7 +6,10 @@ Vagrant is a tool that uses Oracle's VirtualBox to dynamically build configurabl
 
 ## What is this project?
 
-This is the Vagrant configuration used in my boxes for [Zabbix](https://www.zabbix.com/) at [VagrantCloud](https://app.vagrantup.com/isaqueprofeta). They start out with Zabbix Server 5.2, Apache and PostgreSQL 12 with TimescaleDB. The options of Operating System is CentOS 8 or Debian 10.
+This is the Vagrant configuration used in my boxes for [Zabbix](https://www.zabbix.com/) at [VagrantCloud](https://app.vagrantup.com/isaqueprofeta). They start out with:
+
+- CentOS 8: Zabbix Server 5.2, Apache and PostgreSQL 12 with TimescaleDB.
+- Debian 10: Zabbix Server 5.4, Apache and PostgreSQL 13 with TimescaleDB.
 
 ## How do I install Vagrant?
 
@@ -23,7 +26,7 @@ Two options:
 
 config.vm.box could be "isaqueprofeta/zabbix-centos8" or "isaqueprofeta/zabbix-debian10"
 
-```
+```ruby
 Vagrant.configure("2") do |config|
   config.vm.box = "isaqueprofeta/zabbix-debian10"
   config.vm.box_version = "5.2"
@@ -36,7 +39,7 @@ end
 
 Save, exit, and then type:
 
-```
+```sh
 vagrant init isaqueprofeta/zabbix-debian10 # Or isaqueprofeta/zabbix-centos8
 vagrant up
 ```
@@ -55,25 +58,25 @@ vagrant up
 
 1. How to stop/turn off:
 
-```
+```sh
 vagrant halt
 ```
 
 1. How to clean/delete all data:
 
-```
+```sh
 vagrant destroy
 vagrant box prune isaqueprofeta/zabbix-debian10 # Or isaqueprofeta/zabbix-centos8
 ```
 
 2. Create a snapshot for tests:
 
-```
+```sh
 vagrant snapshot create MySnapshot
 ```
 
 2. Recover the snapshot:
 
-```
+```sh
 vagrant snapshot restore MySnapshot
 ```
