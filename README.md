@@ -8,8 +8,10 @@ Vagrant is a tool that uses Oracle's VirtualBox to dynamically build configurabl
 
 This is the Vagrant configuration used in my boxes for [Zabbix](https://www.zabbix.com/) at [VagrantCloud](https://app.vagrantup.com/isaqueprofeta). They start out with:
 
-- CentOS 8: Zabbix Server 5.2, Apache and PostgreSQL 12 with TimescaleDB.
-- Debian 10: Zabbix Server 5.4, Apache and PostgreSQL 13 with TimescaleDB.
+- CentOS 8: Zabbix Server 5.4, Apache and PostgreSQL 12 with TimescaleDB.
+- Debian 10: Zabbix Server 5.4, Nginx and PostgreSQL 13 with TimescaleDB.
+- Rocky 8: Zabbix Server 5.4, Nginx and PostgreSQL 13 with TimescaleDB.
+- Debian 11: Zabbix Server 5.4, Nginx and PostgreSQL 13 with TimescaleDB.
 
 ## How do I install Vagrant?
 
