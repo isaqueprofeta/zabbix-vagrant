@@ -17,6 +17,7 @@ Vagrant.configure("2") do |config|
 
 		zabbix.vm.provision "shell", inline: <<-SHELL
 			echo '----Installing Debian dependencies---- '
+			sudo apt-get -q update
 			sudo apt-get -q -y install gnupg2
 			SHELL
 
