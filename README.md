@@ -8,10 +8,9 @@ Vagrant is a tool that uses Oracle's VirtualBox to dynamically build configurabl
 
 This is the Vagrant configuration used in my boxes for [Zabbix](https://www.zabbix.com/) at [VagrantCloud](https://app.vagrantup.com/isaqueprofeta). They start out with:
 
-- CentOS 8: Zabbix Server 5.4, Apache and PostgreSQL 12 with TimescaleDB.
-- Debian 10: Zabbix Server 5.4, Nginx and PostgreSQL 13 with TimescaleDB.
-- Rocky 8: Zabbix Server 5.4, Nginx and PostgreSQL 13 with TimescaleDB.
-- Debian 11: Zabbix Server 5.4, Nginx and PostgreSQL 13 with TimescaleDB.
+- Alma 8: Zabbix Server 6.0, Nginx and PostgreSQL 15 with TimescaleDB.
+- Rocky 8: Zabbix Server 6.0, Nginx and PostgreSQL 15 with TimescaleDB.
+- Debian 11: Zabbix Server 6.0, Nginx and PostgreSQL 15 with TimescaleDB.
 
 ## How do I install Vagrant?
 
@@ -30,8 +29,8 @@ config.vm.box could be "isaqueprofeta/zabbix-debian10":
 
 ```ruby
 Vagrant.configure("2") do |config|
-  config.vm.box = "isaqueprofeta/zabbix-debian10"
-  config.vm.box_version = "5.4"
+  config.vm.box = "isaqueprofeta/zabbix-debian11"
+  config.vm.box_version = "6.0"
   config.vm.network "forwarded_port", guest: 80 , host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 10050 , host: 10050, host_ip: "127.0.0.1"
@@ -39,12 +38,25 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-or "isaqueprofeta/zabbix-centos8":
+or "isaqueprofeta/zabbix-rocky8":
 
 ```ruby
 Vagrant.configure("2") do |config|
-  config.vm.box = "isaqueprofeta/zabbix-centos8"
-  config.vm.box_version = "5.2"
+  config.vm.box = "isaqueprofeta/zabbix-rocky8"
+  config.vm.box_version = "6.0"
+  config.vm.network "forwarded_port", guest: 80 , host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 10050 , host: 10050, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 10051 , host: 10051, host_ip: "127.0.0.1"
+end
+```
+
+or "isaqueprofeta/zabbix-alma8":
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.box = "isaqueprofeta/zabbix-alma8"
+  config.vm.box_version = "6.0"
   config.vm.network "forwarded_port", guest: 80 , host: 8080, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
   config.vm.network "forwarded_port", guest: 10050 , host: 10050, host_ip: "127.0.0.1"
@@ -55,11 +67,16 @@ end
 Save, exit, and then type:
 
 ```sh
-vagrant init isaqueprofeta/zabbix-debian10 # Or isaqueprofeta/zabbix-centos8
+vagrant init isaqueprofeta/zabbix-debian11 # or centos8, or alma8
 vagrant up
 ```
 
 2. Build ground up from Centos8/Debian10: Clone this repo and inside the wanted OS folder, run vagrant up.
+
+3. Download the gist scripts and use on your own VM/Server:
+
+  - Rocky/Alma 8: https://gist.github.com/isaqueprofeta/7ac75a4f90b9d39283e51f78ae7abaca
+  - Debian 11: https://gist.github.com/isaqueprofeta/abf61686c0c086678175c7b9eaaa0508
 
 ## How do I work?
 
@@ -67,7 +84,7 @@ vagrant up
 
 1. Ports 5432, 10050 and 10051 are directly mapped from the guest to the host to use it as appliance and make it easier to connect to the agents and to make queries using SQL.
 
-2. Zabbix Database Password: Z4bb1xD4t4b4s3
+2. Default Zabbix Database Password: Z4bb1xD4t4b4s3
 
 ## Quick reference:
 
@@ -81,7 +98,7 @@ vagrant halt
 
 ```sh
 vagrant destroy
-vagrant box prune isaqueprofeta/zabbix-debian10 # Or isaqueprofeta/zabbix-centos8
+vagrant box prune isaqueprofeta/zabbix-debian11 # or centos8, or alma8
 ```
 
 2. Create a snapshot for tests:

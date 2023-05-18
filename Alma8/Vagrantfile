@@ -1,6 +1,6 @@
 ZABBIX_VERSION = "6.0"
 POSTGRES_VERSION = "15"
-LINUX_VERSION = "rockylinux/8"
+LINUX_VERSION = "almalinux/8"
 SCRIPT_URL = "https://gist.githubusercontent.com/isaqueprofeta/7ac75a4f90b9d39283e51f78ae7abaca/raw/14cb30d578ea78c1a9feaa3d0dfd6312f88e9fe4/zabbix60_rocky8_timescaledb_nginx.sh"
 
 Vagrant.configure("2") do |config|
