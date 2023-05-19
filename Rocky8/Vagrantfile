@@ -1,7 +1,8 @@
 ZABBIX_VERSION = "6.0"
 POSTGRES_VERSION = "15"
 LINUX_VERSION = "rockylinux/8"
-SCRIPT_URL = "https://gist.githubusercontent.com/isaqueprofeta/7ac75a4f90b9d39283e51f78ae7abaca/raw/14cb30d578ea78c1a9feaa3d0dfd6312f88e9fe4/zabbix60_rocky8_timescaledb_nginx.sh"
+SCRIPT_URL = "https://gist.githubusercontent.com/isaqueprofeta/7ac75a4f90b9d39283e51f78ae7abaca/raw/155e9a363788b10f835c3de88d2b1764fc3174f6/zabbix60_rocky8_timescaledb_nginx.sh"
+DATABASE_PASSWORD = "Z4bb1xD4t4b4s3"
 
 Vagrant.configure("2") do |config|
 
@@ -17,7 +18,7 @@ Vagrant.configure("2") do |config|
               
       zabbix.vm.provision "shell", inline: <<-SHELL
         curl -sSL #{SCRIPT_URL} -o /tmp/zabbix60_bullseye_timescaledb_nginx.sh
-        bash /tmp/zabbix60_bullseye_timescaledb_nginx.sh
+        bash /tmp/zabbix60_bullseye_timescaledb_nginx.sh #{DATABASE_PASSWORD}
         SHELL
 
     end

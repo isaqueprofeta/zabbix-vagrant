@@ -1,7 +1,8 @@
 ZABBIX_VERSION = "6.0"
 POSTGRES_VERSION = "15"
 LINUX_VERSION = "debian/bullseye64"
-SCRIPT_URL = "https://gist.githubusercontent.com/isaqueprofeta/abf61686c0c086678175c7b9eaaa0508/raw/65011a5ad2a68e4bca2914e8245ad9ba95bf885b/zabbix60_bullseye_timescaledb_nginx.sh"
+SCRIPT_URL = "https://gist.githubusercontent.com/isaqueprofeta/abf61686c0c086678175c7b9eaaa0508/raw/fd12a7d7bc3b172fa6effad434a03349c16507b7/zabbix60_bullseye_timescaledb_nginx.sh"
+DATABASE_PASSWORD = "Z4bb1xD4t4b4s3"
 
 Vagrant.configure("2") do |config|
 
@@ -14,12 +15,12 @@ Vagrant.configure("2") do |config|
       zabbix.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
       zabbix.vm.network "forwarded_port", guest: 10050 , host: 10050, host_ip: "127.0.0.1"
       zabbix.vm.network "forwarded_port", guest: 10051 , host: 10051, host_ip: "127.0.0.1"
-
+	  
       zabbix.vm.provision "shell", inline: <<-SHELL
 	  	apt update
 		apt install -y curl
 		curl -sSL #{SCRIPT_URL} -o /tmp/zabbix60_bullseye_timescaledb_nginx.sh
-		bash /tmp/zabbix60_bullseye_timescaledb_nginx.sh
+		bash /tmp/zabbix60_bullseye_timescaledb_nginx.sh #{DATABASE_PASSWORD}
         SHELL
 
     end
