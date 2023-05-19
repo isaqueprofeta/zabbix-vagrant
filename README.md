@@ -8,9 +8,11 @@ Vagrant is a tool that uses Oracle's VirtualBox to dynamically build configurabl
 
 This is the Vagrant configuration used in my boxes for [Zabbix](https://www.zabbix.com/) at [VagrantCloud](https://app.vagrantup.com/isaqueprofeta). They start out with:
 
-- Alma 8: Zabbix Server 6.0, Nginx and PostgreSQL 15 with TimescaleDB.
-- Rocky 8: Zabbix Server 6.0, Nginx and PostgreSQL 15 with TimescaleDB.
-- Debian 11: Zabbix Server 6.0, Nginx and PostgreSQL 15 with TimescaleDB.
+Zabbix Server 6.0, Nginx and PostgreSQL 15 with TimescaleDB on:
+  - Alma 8
+  - Rocky 8
+  - Debian 11
+  - Ubuntu 22.04
 
 ## How do I install Vagrant?
 
@@ -64,10 +66,23 @@ Vagrant.configure("2") do |config|
 end
 ```
 
+or "isaqueprofeta/zabbix-ubuntu2204":
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.box = "isaqueprofeta/zabbix-ubuntu2204"
+  config.vm.box_version = "6.0"
+  config.vm.network "forwarded_port", guest: 80 , host: 8080, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 10050 , host: 10050, host_ip: "127.0.0.1"
+  config.vm.network "forwarded_port", guest: 10051 , host: 10051, host_ip: "127.0.0.1"
+end
+```
+
 Save, exit, and then type:
 
 ```sh
-vagrant init isaqueprofeta/zabbix-debian11 # or centos8, or alma8
+vagrant init isaqueprofeta/zabbix-debian11 # or centos8, or alma8, or ubuntu2204
 vagrant up
 ```
 
@@ -76,7 +91,8 @@ vagrant up
 3. Download the gist scripts and use on your own VM/Server:
 
   - Rocky/Alma 8: https://gist.github.com/isaqueprofeta/7ac75a4f90b9d39283e51f78ae7abaca
-  - Debian 11: https://gist.github.com/isaqueprofeta/abf61686c0c086678175c7b9eaaa0508
+  - Debian 11 https://gist.github.com/isaqueprofeta/abf61686c0c086678175c7b9eaaa0508
+  - Ubuntu 22.04: https://gist.github.com/isaqueprofeta/ed55bb57dcfa3e52c7bd8cc8c1b9a060
 
 ## How do I work?
 

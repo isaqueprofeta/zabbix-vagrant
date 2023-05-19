@@ -1,0 +1,26 @@
+ZABBIX_VERSION = "6.0"
+POSTGRES_VERSION = "15"
+LINUX_VERSION = "ubuntu/jammy64"
+SCRIPT_URL = "https://gist.githubusercontent.com/isaqueprofeta/ed55bb57dcfa3e52c7bd8cc8c1b9a060/raw/93c515bbbcf734acc8884488d2caf39e1758ad26/zabbix60_ubuntu22_timescaledb_nginx.sh"
+DATABASE_PASSWORD = "Z4bb1xD4t4b4s3"
+
+Vagrant.configure("2") do |config|
+
+    config.vm.define "zabbix" do |zabbix|
+  
+      zabbix.vm.box = LINUX_VERSION
+
+      zabbix.vm.hostname = "zabbix"
+      zabbix.vm.network "forwarded_port", guest: 80 , host: 8080, host_ip: "127.0.0.1"
+      zabbix.vm.network "forwarded_port", guest: 5432 , host: 5432, host_ip: "127.0.0.1"
+      zabbix.vm.network "forwarded_port", guest: 10050 , host: 10050, host_ip: "127.0.0.1"
+      zabbix.vm.network "forwarded_port", guest: 10051 , host: 10051, host_ip: "127.0.0.1"
+	  
+      zabbix.vm.provision "shell", inline: <<-SHELL
+		curl -sSL #{SCRIPT_URL} -o /tmp/zabbix60_ubuntu22_timescaledb_nginx.sh
+		bash /tmp/zabbix60_ubuntu22_timescaledb_nginx.sh #{DATABASE_PASSWORD}
+        SHELL
+
+    end
+  
+end
