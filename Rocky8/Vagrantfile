@@ -1,6 +1,6 @@
 ZABBIX_VERSION = "6.0"
 POSTGRES_VERSION = "15"
-LINUX_VERSION = "rockylinux/8"
+LINUX_VERSION = "generic/rocky8"
 SCRIPT_URL = "https://gist.githubusercontent.com/isaqueprofeta/7ac75a4f90b9d39283e51f78ae7abaca/raw/155e9a363788b10f835c3de88d2b1764fc3174f6/zabbix60_rocky8_timescaledb_nginx.sh"
 DATABASE_PASSWORD = "Z4bb1xD4t4b4s3"
 
