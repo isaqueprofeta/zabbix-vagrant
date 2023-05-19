@@ -25,7 +25,7 @@ Two options:
 
 1. Using the VagrantCloud box: From an empty directory, Create a Vagrantfile and put in it the contents:
 
-config.vm.box could be "isaqueprofeta/zabbix-debian10":
+config.vm.box could be "isaqueprofeta/zabbix-debian11":
 
 ```ruby
 Vagrant.configure("2") do |config|
